@@ -402,8 +402,8 @@ CommonReadXPM(interp, handle, format, imageHandle, destX, destY,
 	  ((unsigned char *) &data)[3] = 255;
 	}
 
-	hPtr = Tcl_CreateHashEntry(&colorTable, (char *) color1, &found);
-	Tcl_SetHashValue(hPtr, (char *) data);
+	hPtr = Tcl_CreateHashEntry(&colorTable, (char *) (size_t) color1, &found);
+	Tcl_SetHashValue(hPtr, (char *) (size_t) data);
 
 	ckfree(colorName);
 	ckfree(useName);
@@ -454,16 +454,16 @@ CommonReadXPM(interp, handle, format, imageHandle, destX, destY,
 	    unsigned int col;
 
 	    memcpy((char *) &color1, p, byteSize);
-	    hPtr = Tcl_FindHashEntry(&colorTable, (char *) color1);
+	    hPtr = Tcl_FindHashEntry(&colorTable, (char *) (size_t) color1);
 
 	    /*
 	     * if hPtr == NULL, we have an invalid color entry in the XPM
 	     * file. We use transparant as default color
 	     */
 	    if (hPtr != (Tcl_HashEntry *)NULL)
-	        col = (int)Tcl_GetHashValue(hPtr);
+	        col = (unsigned int) (size_t) Tcl_GetHashValue(hPtr);
 	    else
-	        col = (int)0;
+	        col = (unsigned int) 0;
 
 	    /*
 	     * we've found a non-transparent pixel, let's search the next
@@ -483,11 +483,11 @@ CommonReadXPM(interp, handle, format, imageHandle, destX, destY,
 
 		    if (i < width) {
 		        memcpy((char *) &color1, p, byteSize);
-			hPtr = Tcl_FindHashEntry(&colorTable, (char *) color1);
+			hPtr = Tcl_FindHashEntry(&colorTable, (char *) (size_t) color1);
 			if (hPtr != (Tcl_HashEntry *)NULL)
-			    col = (int)Tcl_GetHashValue(hPtr);
+			    col = (unsigned int) (size_t) Tcl_GetHashValue(hPtr);
 			else
-			    col = (int)0;
+			    col = (unsigned int) 0;
 		    }
 		} while ((i < width) && col);
 		Tk_PhotoPutBlock(imageHandle, &block.pub, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_SET);

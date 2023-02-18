@@ -29,11 +29,11 @@ typedef struct PixelRep {
     (TclObjInternal(objPtr)->twoPtrValue.ptr2 == 0)
 
 #define SET_SIMPLEPIXEL(objPtr, intval)                 \
-    TclObjInternal(objPtr)->twoPtrValue.ptr1 = (VOID *) (intval);       \
+    TclObjInternal(objPtr)->twoPtrValue.ptr1 = (VOID *) (size_t) (intval);  \
     TclObjInternal(objPtr)->twoPtrValue.ptr2 = 0
 
 #define GET_SIMPLEPIXEL(objPtr)                         \
-    ((int) TclObjInternal(objPtr)->twoPtrValue.ptr1)
+    ((int) (size_t) TclObjInternal(objPtr)->twoPtrValue.ptr1)
 
 #define SET_COMPLEXPIXEL(objPtr, repPtr)                \
     TclObjInternal(objPtr)->twoPtrValue.ptr1 = 0;               \

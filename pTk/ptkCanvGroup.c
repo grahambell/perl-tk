@@ -976,7 +976,7 @@ Tcl_Obj *string;
 	int count = 0;
 	for (i=0; i < argc; i++) {
 	    if (Tcl_GetIntFromObj(groupPtr->interp,objv[i],&id) == TCL_OK) {
-		Tcl_HashEntry *entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) id);
+		Tcl_HashEntry *entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) (size_t) id);
 		if (entryPtr != NULL) {
 		    Tk_Item *subitemPtr = (Tk_Item *) Tcl_GetHashValue(entryPtr);
 		    if (subitemPtr == NULL
@@ -1019,7 +1019,7 @@ Tcl_Obj *string;
 	for (i=0; i < argc; i++) {
 	    groupPtr->members[beforeThis] = NULL;
 	    if (Tcl_GetIntFromObj(groupPtr->interp,objv[i],&id) == TCL_OK) {
-		Tcl_HashEntry *entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) id);
+		Tcl_HashEntry *entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) (size_t) id);
 		if (entryPtr != NULL) {
 		    Tk_Item *subitemPtr = (Tk_Item *) Tcl_GetHashValue(entryPtr);
 		    if (subitemPtr == NULL

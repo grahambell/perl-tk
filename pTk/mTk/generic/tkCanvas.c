@@ -726,7 +726,7 @@ CanvasWidgetCmd(clientData, interp, objc, objv)
 	if (searchPtr->type == 1) {
 	    Tcl_HashEntry *entryPtr;
 
-	    entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) searchPtr->id);
+	    entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) (size_t) searchPtr->id);
 	    if (entryPtr != NULL) {
 		itemPtr = (Tk_Item *) Tcl_GetHashValue(entryPtr);
 		object = (ClientData) itemPtr;
@@ -1024,7 +1024,7 @@ CanvasWidgetCmd(clientData, interp, objc, objv)
 	}
 	itemPtr->nextPtr = NULL;
 	entryPtr = Tcl_CreateHashEntry(&canvasPtr->idTable,
-		(char *) itemPtr->id, &isNew);
+		(char *) (size_t) itemPtr->id, &isNew);
 	Tcl_SetHashValue(entryPtr, itemPtr);
 	itemPtr->prevPtr = canvasPtr->lastItemPtr;
 	canvasPtr->hotPtr = itemPtr;
@@ -1139,7 +1139,7 @@ CanvasWidgetCmd(clientData, interp, objc, objv)
 		    ckfree((char *) itemPtr->tagPtr);
 		}
 		entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable,
-			(char *) itemPtr->id);
+			(char *) (size_t) itemPtr->id);
 		Tcl_DeleteHashEntry(entryPtr);
 		if (itemPtr->nextPtr != NULL) {
 		    itemPtr->nextPtr->prevPtr = itemPtr->prevPtr;
@@ -3960,7 +3960,7 @@ TagSearchFirst(searchPtr)
 	if ((itemPtr == NULL) || (itemPtr->id != searchPtr->id) || (lastPtr == NULL)
 	    || (lastPtr->nextPtr != itemPtr)) {
 	    entryPtr = Tcl_FindHashEntry(&searchPtr->canvasPtr->idTable,
-		(char *) searchPtr->id);
+		(char *) (size_t) searchPtr->id);
 	    if (entryPtr != NULL) {
 		itemPtr = (Tk_Item *)Tcl_GetHashValue(entryPtr);
 		lastPtr = itemPtr->prevPtr;
@@ -6067,7 +6067,7 @@ int offset;
 	    *valp = NULL;
 	    return TCL_OK;
 	}
-	entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) id);
+	entryPtr = Tcl_FindHashEntry(&canvasPtr->idTable, (char *) (size_t) id);
 	if (entryPtr != NULL && (itemPtr = (Tk_Item *) Tcl_GetHashValue(entryPtr)) != NULL) {
 	    if (strcmp(itemPtr->typePtr->name,"group") == 0) {
 		*valp = itemPtr;

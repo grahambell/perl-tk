@@ -638,7 +638,7 @@ CreateElement(name, create)
 
     entryPtr = Tcl_CreateHashEntry(&tsdPtr->elementTable, name, &newEntry);
     if (!newEntry) {
-	elementId = (int) Tcl_GetHashValue(entryPtr);
+	elementId = (int) (size_t) Tcl_GetHashValue(entryPtr);
 	if (create) {
 	    tsdPtr->elements[elementId].created = 1;
 	}
@@ -656,7 +656,7 @@ CreateElement(name, create)
     }
 
     elementId = tsdPtr->nbElements++;
-    Tcl_SetHashValue(entryPtr, (ClientData) elementId);
+    Tcl_SetHashValue(entryPtr, (ClientData) (size_t) elementId);
 
     /*
      * Reallocate element table.
@@ -719,7 +719,7 @@ Tk_GetElementId(name)
 
     entryPtr = Tcl_FindHashEntry(&tsdPtr->elementTable, name);
     if (entryPtr) {
-	return (int) Tcl_GetHashValue(entryPtr);
+	return (int) (size_t) Tcl_GetHashValue(entryPtr);
     }
 
     /*

@@ -5020,7 +5020,7 @@ char *s;
         break;
 
        case TK_EVENTTYPE_DISPLAY:
-        sv_setref_pv(eventSv, "DisplayPtr", (void *) number);
+        sv_setref_pv(eventSv, "DisplayPtr", (void *) (size_t) number);
         break;
 
        case TK_EVENTTYPE_DATA:

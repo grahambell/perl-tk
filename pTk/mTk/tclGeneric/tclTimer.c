@@ -270,7 +270,7 @@ Tcl_CreateTimerHandler(milliseconds, proc, clientData)
     timerHandlerPtr->proc = proc;
     timerHandlerPtr->clientData = clientData;
     tsdPtr->lastTimerId++;
-    timerHandlerPtr->token = (Tcl_TimerToken) tsdPtr->lastTimerId;
+    timerHandlerPtr->token = (Tcl_TimerToken) (size_t) tsdPtr->lastTimerId;
 
     /*
      * Add the event to the queue in the correct position
@@ -549,7 +549,7 @@ TimerHandlerEventProc(evPtr, flags)
 	 * Bail out if the next timer is of a newer generation.
 	 */
 
-	if ((currentTimerId - (int)timerHandlerPtr->token) < 0) {
+	if ((currentTimerId - (int) (size_t) timerHandlerPtr->token) < 0) {
 	    break;
 	}
 

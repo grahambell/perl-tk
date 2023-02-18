@@ -329,20 +329,20 @@ GetMenuIndicatorGeometry(menuPtr, mePtr, tkfont, fmPtr, widthPtr, heightPtr)
 		*heightPtr = mePtr->height;
 		if (mePtr->type == CHECK_BUTTON_ENTRY) {
 		    mePtr->platformEntryData =
-			    (TkMenuPlatformEntryData) ((65 * mePtr->height)
+			    (TkMenuPlatformEntryData) (size_t) ((65 * mePtr->height)
 			    / 100);
 		} else {
 		    mePtr->platformEntryData =
-			    (TkMenuPlatformEntryData) ((75 * mePtr->height)
+			    (TkMenuPlatformEntryData) (size_t) ((75 * mePtr->height)
 			    / 100);
 		}
 	    } else {
 		*widthPtr = *heightPtr = mePtr->height;
 		if (mePtr->type == CHECK_BUTTON_ENTRY) {
-		    mePtr->platformEntryData = (TkMenuPlatformEntryData)
+		    mePtr->platformEntryData = (TkMenuPlatformEntryData) (size_t)
 			((80 * mePtr->height) / 100);
 		} else {
-		    mePtr->platformEntryData = (TkMenuPlatformEntryData)
+		    mePtr->platformEntryData = (TkMenuPlatformEntryData) (size_t)
 			mePtr->height;
 		}
 	    }
@@ -572,7 +572,7 @@ DrawMenuEntryIndicator(menuPtr, mePtr, d, gc, indicatorGC, tkfont, fmPtr,
 	int activeBorderWidth;
 	Tk_3DBorder border;
 
-	dim = (int) mePtr->platformEntryData;
+	dim = (int) (size_t) mePtr->platformEntryData;
 	Tk_GetPixelsFromObj(NULL, menuPtr->tkwin,
 		menuPtr->activeBorderWidthPtr, &activeBorderWidth);
 	left = x + activeBorderWidth + (mePtr->indicatorSpace - dim)/2;
@@ -605,9 +605,9 @@ DrawMenuEntryIndicator(menuPtr, mePtr, d, gc, indicatorGC, tkfont, fmPtr,
 
 	border = Tk_Get3DBorderFromObj(menuPtr->tkwin,
 		menuPtr->borderPtr);
-	radius = ((int) mePtr->platformEntryData)/2;
+	radius = ((int) (size_t) mePtr->platformEntryData)/2;
 	points[0].x = x + (mePtr->indicatorSpace
-		- (int) mePtr->platformEntryData)/2;
+		- (int) (size_t) mePtr->platformEntryData)/2;
 	points[0].y = y + (height)/2;
 	points[1].x = points[0].x + radius;
 	points[1].y = points[0].y + radius;

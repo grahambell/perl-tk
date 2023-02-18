@@ -59,7 +59,7 @@ Tk_StateParseProc(clientData, interp, tkwin, ovalue, widgRec, offset)
     int offset;				/* Offset into item. */
 {
     int c;
-    int flags = (int)clientData;
+    int flags = (int) (size_t) clientData;
     size_t length;
     char *value = Tcl_GetString(ovalue);
 
@@ -356,7 +356,7 @@ TkOffsetParseProc(clientData, interp, tkwin, ovalue, widgRec, offset)
 
     switch(value[0]) {
 	case '#':
-	    if (((int)clientData) & TK_OFFSET_RELATIVE) {
+	    if (((int) (size_t) clientData) & TK_OFFSET_RELATIVE) {
 		tsoffset.flags = TK_OFFSET_RELATIVE;
 		argc--;
 		args++;
@@ -411,7 +411,7 @@ TkOffsetParseProc(clientData, interp, tkwin, ovalue, widgRec, offset)
 	    goto goodTSOffset;
     }
     if (argc == 1) {
-	if (((int)clientData) & TK_OFFSET_INDEX) {
+	if (((int) (size_t) clientData) & TK_OFFSET_INDEX) {
 	    if (Tcl_GetIntFromObj(interp, args[0], &tsoffset.flags) != TCL_OK) {
 		Tcl_ResetResult(interp);
 		goto badTSOffset;
@@ -447,10 +447,10 @@ goodTSOffset:
 badTSOffset:
     Tcl_AppendResult(interp, "bad offset \"", value,
 	    "\": expected \"x,y\"", (char *) NULL);
-    if (((int) clientData) & TK_OFFSET_RELATIVE) {
+    if (((int) (size_t) clientData) & TK_OFFSET_RELATIVE) {
 	Tcl_AppendResult(interp, ", \"#x,y\"", (char *) NULL);
     }
-    if (((int) clientData) & TK_OFFSET_INDEX) {
+    if (((int) (size_t) clientData) & TK_OFFSET_INDEX) {
 	Tcl_AppendResult(interp, ", <index>", (char *) NULL);
     }
     Tcl_AppendResult(interp, ", n, ne, e, se, s, sw, w, nw, or center",
@@ -993,7 +993,7 @@ TkFindStateNumObj(interp, optionPtr, mapPtr, keyObjPtr)
 
     if ((TclObjGetType(keyObjPtr) == &tkStateKeyObjType)
 	    && (keyObjPtr->internalRep.twoPtrValue.ptr1 == (VOID *) mapPtr)) {
-	return (int) keyObjPtr->internalRep.twoPtrValue.ptr2;
+	return (int) (size_t) keyObjPtr->internalRep.twoPtrValue.ptr2;
     }
 
     key = Tcl_GetStringFromObj(keyObjPtr, NULL);
@@ -1004,7 +1004,7 @@ TkFindStateNumObj(interp, optionPtr, mapPtr, keyObjPtr)
 		(*typePtr->freeIntRepProc)(keyObjPtr);
 	    }
 	    keyObjPtr->internalRep.twoPtrValue.ptr1 = (VOID *) mapPtr;
-	    keyObjPtr->internalRep.twoPtrValue.ptr2 = (VOID *) mPtr->numKey;
+	    keyObjPtr->internalRep.twoPtrValue.ptr2 = (VOID *) (size_t) mPtr->numKey;
 	    keyObjPtr->typePtr = &tkStateKeyObjType;
 	    return mPtr->numKey;
 	}

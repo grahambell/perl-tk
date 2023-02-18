@@ -433,7 +433,7 @@ Tk_NameOfCursor(display, cursor)
     if (!dispPtr->cursorInit) {
 	printid:
 	sprintf(dispPtr->cursorString, "cursor id 0x%x",
-		(unsigned int) cursor);
+		(unsigned int) (size_t) cursor);
 	return dispPtr->cursorString;
     }
     idHashPtr = Tcl_FindHashEntry(&dispPtr->cursorIdTable, (char *) cursor);

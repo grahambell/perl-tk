@@ -3038,7 +3038,7 @@ char *numStorage;
         doDisplay:
          if (type)
           *type = TK_EVENTTYPE_DISPLAY;
-         string = DisplayString((Display *) number);
+         string = DisplayString((Display *) (size_t) number);
          goto doNumeric;
 
         doAtom:
